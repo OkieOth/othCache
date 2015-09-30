@@ -1,0 +1,21 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "ubuntu/trusty64"
+  config.vm.box_check_update = false
+  config.vm.network "forwarded_port", guest: 11211, host: 12211
+  config.vm.provider "virtualbox" do |vb|
+     vb.memory = "1024"
+  end
+  config.vm.provision "shell", inline: <<-SHELL
+     sudo apt-get update
+     sudo apt-get install -y memcached openjdk-7-jre
+     # start - modify memcached config for tests - make installation insecure
+     sudo /etc/init.d/memcached stop
+     cat /etc/memcached.conf | sed  's/-l 127.0.0.1/#-l 127.0.0.1 # make memcached insecure/' > /tmp/memcached.conf
+     sudo cp /tmp/memcached.conf /etc
+     sudo /etc/init.d/memcached start
+     # end - modify memcached config for tests - make installation insecure
+  SHELL
+end

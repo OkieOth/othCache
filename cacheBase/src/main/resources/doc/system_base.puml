@@ -1,0 +1,14 @@
+@startuml
+title othCache - a wrapper around \ncache implementations to enable\ninter app communication
+node "sample app" {
+    [some component]
+}
+node "another app" {
+    [another component]
+}
+node "othCache" {
+    ()ICache - [CacheImpl]    
+    [some component] -> ICache
+    [another component] -> ICache
+}
+@enduml
