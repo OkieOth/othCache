@@ -34,7 +34,6 @@ public class Test_Connect {
         String key="testString";
         String testValue="döfadöfadf dfösdföasdöferaföa adföasdf d öfödföadföaöfdöaföaf";
         Assert.assertNull(client.get(key));
-        client.delete(key);
 
         //store a value for one hour(synchronously).
         client.set(key,3600,testValue);
@@ -51,5 +50,50 @@ public class Test_Connect {
         client.delete(key);
 
         Assert.assertNull(client.get(key));
+    }
+    
+    @Test
+    public void test_expire() throws IOException, TimeoutException, InterruptedException,MemcachedException {
+        MemcachedClient client=new XMemcachedClient("127.0.0.1",12211);
+        String key="testString";
+        String testValue="döfadöfadf dfösdföasdöferaföa adföasdf d öfödföadföaöfdöaföaf";
+        Assert.assertNull(client.get(key));
+
+        try {        
+        //store a value for five seconds.
+        client.set(key,5,testValue);
+        //Retrieve a value.(synchronously).
+        String readedValue=(String)client.get(key);
+        Assert.assertEquals(testValue,readedValue);
+        
+        Thread.sleep(1000);
+
+        readedValue=(String)client.get(key);
+        Assert.assertEquals(testValue,readedValue);
+
+        Thread.sleep(1000);
+
+        readedValue=(String)client.get(key);
+        Assert.assertEquals(testValue,readedValue);
+
+        Thread.sleep(1000);
+
+        readedValue=(String)client.get(key);
+        Assert.assertEquals(testValue,readedValue);
+        
+        Thread.sleep(1000);
+
+        readedValue=(String)client.get(key);
+        Assert.assertEquals(testValue,readedValue);
+
+        Thread.sleep(2000);
+
+        readedValue=(String)client.get(key);
+        Assert.assertNull(readedValue);
+        }
+        finally {
+            // delete value - tidy up
+            client.delete(key);
+        }
     }
 }
