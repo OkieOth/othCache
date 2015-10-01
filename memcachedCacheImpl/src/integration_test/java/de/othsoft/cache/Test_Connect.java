@@ -33,7 +33,7 @@ public class Test_Connect {
         MemcachedClient client=new XMemcachedClient("localhost",12211);
         String key="testString";
         String testValue="döfadöfadf dfösdföasdöferaföa adföasdf d öfödföadföaöfdöaföaf";
-//        Assert.assertNull(client.get(key));
+        Assert.assertNull(client.get(key));
 
         //store a value for one hour(synchronously).
         client.set(key,3600,testValue);
@@ -47,7 +47,7 @@ public class Test_Connect {
         Assert.assertTrue(client.touch(key,10));
 
         //delete value
-        client.delete("key");
+        client.delete(key);
 
         Assert.assertNull(client.get(key));
     }
