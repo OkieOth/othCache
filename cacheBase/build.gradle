@@ -1,11 +1,11 @@
 apply plugin: 'java'
-//apply plugin: 'application'
+apply plugin: 'maven-publish'
 
 sourceCompatibility = '1.7'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 project.group = 'de.othsoft.cache'
-project.version = '0.1-SNAPSHOT'
+project.version = '0.1'
 
 
 // NetBeans will automatically add "run" and "debug" tasks relying on the
@@ -21,21 +21,25 @@ if (!hasProperty('mainClass')) {
 }
 */
 
-// to use enter: gradle upload
-uploadArchives {
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+publishing {
     repositories {
-	flatDir {
-		dirs "${System.getenv('HOME')}/myGradleRepos/${project.group}/${project.name}"
-	}
+        maven {
+            url "${System.getenv('HOME')}/myMavenRepos"
+        }
     }
 }
 
 repositories {
-    ivy {
-        url "file://${System.getenv('HOME')}/myGradleRepos"
-        layout "pattern", {
-            artifact "[organisation]/[artifact]/[artifact]-[revision].[ext]"
-        }
+    maven {
+        url "${System.getenv('HOME')}/myMavenRepos"
     }
     mavenCentral()
 }
