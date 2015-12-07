@@ -30,7 +30,7 @@ import org.junit.Test;
 public class Test_Connect {
     @Test
     public void test_connect() throws IOException, TimeoutException, InterruptedException,MemcachedException {
-        MemcachedClient client=new XMemcachedClient("127.0.0.1",12211);
+        MemcachedClient client=new XMemcachedClient("127.0.0.1",11211);
         String key="testString";
         String testValue="döfadöfadf dfösdföasdöferaföa adföasdf d öfödföadföaöfdöaföaf";
         Assert.assertNull(client.get(key));
@@ -54,7 +54,7 @@ public class Test_Connect {
     
     @Test
     public void test_expire() throws IOException, TimeoutException, InterruptedException,MemcachedException {
-        MemcachedClient client=new XMemcachedClient("127.0.0.1",12211);
+        MemcachedClient client=new XMemcachedClient("127.0.0.1",11211);
         String key="testString";
         String testValue="döfadöfadf dfösdföasdöferaföa adföasdf d öfödföadföaöfdöaföaf";
         Assert.assertNull(client.get(key));

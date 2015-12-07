@@ -12,10 +12,28 @@ specific language governing permissions and limitations under the License.
 */
 package de.othsoft.cache.base.error;
 
+import de.othsoft.helper.base.Identifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  *
  * @author eiko
  */
 public class CacheException extends Exception {
+    public CacheException () {
+        super();
+    }
+
+    public CacheException (String msg) {
+        super(msg);
+        logger.error("<<{}>> {}",Identifier.getInst().getName(),msg);
+    }
+
+    public CacheException (Exception e,String msg) {
+        super(msg);
+        logger.error("<<{}>> {}: [{}] {}",Identifier.getInst().getName(),msg,e.getClass().getName(),e.getMessage());
+    }
     
+    private static Logger logger = LoggerFactory.getLogger(CacheException.class);
 }

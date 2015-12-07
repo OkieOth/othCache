@@ -13,29 +13,38 @@ specific language governing permissions and limitations under the License.
 package de.othsoft.cache.base;
 
 import de.othsoft.cache.base.error.CacheException;
+import de.othsoft.cache.base.util.CacheValue;
+import java.util.List;
 
 /**
  *
  * @author eiko
  */
 public interface ICache {
-    String createUniqueUserId();
+    static final int NO_EXPIRES=-1;
+    String createUniqueUserKey(String base) throws CacheException;
+    String createUniqueAppKey(String base) throws CacheException;
     
-    void putStrValue(String appKey,String userKey,String value,boolean expires) throws CacheException;
-    void putBoolValue(String appKey,String userKey,boolean value,boolean expires) throws CacheException;
-    void putIntValue(String appKey,String userKey,int value,boolean expires) throws CacheException;
-    void putLongValue(String appKey,String userKey,long value,boolean expires) throws CacheException;    
-    void putStrArrayValue(String appKey,String userKey,String[] value,boolean expires) throws CacheException;
-    void putBoolArrayValue(String appKey,String userKey,boolean[] value,boolean expires) throws CacheException;
-    void putIntArrayValue(String appKey,String userKey,int[] value,boolean expires) throws CacheException;
-    void putLongArrayValue(String appKey,String userKey,long[] value,boolean expires) throws CacheException;  
-
-    String getStrValue(String appKey,String userKey) throws CacheException;
-    Boolean getBoolValue(String appKey,String userKey) throws CacheException;
-    Integer getIntValue(String appKey,String userKey) throws CacheException;
-    Long getLongValue(String appKey,String userKey) throws CacheException; 
-    String[] getStrArrayValue(String appKey,String userKey) throws CacheException;
-    Boolean[] getBoolArrayValue(String appKey,String userKey) throws CacheException;
-    Integer[] getIntArrayValue(String appKey,String userKey) throws CacheException;
-    Long[] getLongArrayValue(String appKey,String userKey) throws CacheException;  
+    void setStrValue(String appKey,String userKey,String entryKey,String value,int expireSeconds) throws CacheException;
+    void setStrValue(String appKey,String userKey,String entryKey,String value) throws CacheException;
+    void setBoolValue(String appKey,String userKey,String entryKey,Boolean value,int expireSeconds) throws CacheException;
+    void setBoolValue(String appKey,String userKey,String entryKey,Boolean value) throws CacheException;
+    void setIntValue(String appKey,String userKey,String entryKey,Integer value,int expireSeconds) throws CacheException;
+    void setIntValue(String appKey,String userKey,String entryKey,Integer value) throws CacheException;
+    void setLongValue(String appKey,String userKey,String entryKey,Long value,int expireSeconds) throws CacheException;   
+    void setLongValue(String appKey,String userKey,String entryKey,Long value) throws CacheException;   
+    void setValues(String appKey,String userKey,List<CacheValue> cacheValueArray) throws CacheException;
+    void touchValues(String appKey,String userKey,List<String> keyArray,int expireSeconds) throws CacheException;
+    void touchValue(String appKey,String userKey,String entryKey,int expireSeconds) throws CacheException;
+    void removeValues(String appKey,String userKey,List<String> keyArray) throws CacheException;
+    void removeValue(String appKey,String userKey,String entryKey) throws CacheException;
+    
+    // TODO - float values
+    
+    
+    String getStrValue(String appKey,String userKey,String entryKey) throws CacheException;
+    Boolean getBoolValue(String appKey,String userKey,String entryKey) throws CacheException;
+    Integer getIntValue(String appKey,String userKey,String entryKey) throws CacheException;
+    Long getLongValue(String appKey,String userKey,String entryKey) throws CacheException; 
+    void getValues(String appKey,String userKey,List<CacheValue> cacheValueArray) throws CacheException;    
 }
