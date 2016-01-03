@@ -56,6 +56,9 @@ public class CacheImpl implements ICache {
     public void setServer(String address,int port) {
         try {
             this.serverAddr=address;
+            if (client!=null) {
+                client = null;
+            }
             client=new XMemcachedClient(address,port);
         }
         catch(IOException e) {
@@ -64,6 +67,21 @@ public class CacheImpl implements ICache {
             client = null;
             this.serverAddr = null;
         }
+    }
+    
+    public void closeServerCon() {
+        if (client instanceof XMemcachedClient) {
+            logger.info("<<{}>> remove server with addr {}",
+                    Identifier.getInst().getName(),serverAddr);
+            try {
+                ((XMemcachedClient)client).shutdown();
+            }
+            catch(IOException io) {
+                logger.error("<<{}>> error while close memcached client for address {}: [{}] {}",
+                        Identifier.getInst().getName(),serverAddr,io.getClass().getName(),io.getMessage());                
+            }
+        }
+        client = null;
     }
                                         
     private void checkInitAndIfWrongThrowException() throws CacheException {
